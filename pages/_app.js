@@ -10,8 +10,6 @@ function App({ Component, pageProps }) {
         <>
             <Head>
                 <title>IDR</title>
-
-                {/* bootstrap css */}
                 <link href="//netdna.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
             </Head>
 
@@ -26,10 +24,7 @@ function App({ Component, pageProps }) {
             {/* credits */}
             <div className="text-center mt-4">
                 <p>
-                    <a href="#" target="_top">IDR Stuff</a>
-                </p>
-                <p>
-                    <a href="#" target="_top">R Man</a>
+                    <a href="#" target="_top">Trade Godz</a>
                 </p>
             </div>
         </>

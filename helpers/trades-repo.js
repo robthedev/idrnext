@@ -24,23 +24,12 @@ function getById(id) {
     return trades.find(x => x.id.toString() === id.toString());
 }
 
-const trade = {
-    id, 
-    title,
-    bias,
-    drRange,
-    winLoss,
-    maxStdTarget,
-    entryZone,
-    timeOfEntry,
-    news,
-};
-
 function create({
     title,
     bias,
     drRange,
     winLoss,
+    date,
     maxStdTarget,
     entryZone,
     timeOfEntry,
@@ -50,6 +39,7 @@ function create({
         title,
         bias,
         drRange,
+        date,
         winLoss,
         maxStdTarget,
         entryZone,

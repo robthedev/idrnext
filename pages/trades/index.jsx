@@ -22,15 +22,14 @@ function Index() {
         });
     }
 
-    /* id, 
-    title,
-    bias,
-    drRange,
-    winLoss,
-    maxStdTarget,
-    entryZone,
-    timeOfEntry,
-    news, */
+/*title,
+        bias,
+        drRange,
+        winLoss,
+        maxStdTarget,
+        entryZone,
+        timeOfEntry,
+        news,*/
 
     return (
         <div>
@@ -39,18 +38,26 @@ function Index() {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th style={{ width: '30%' }}>Name</th>
-                        <th style={{ width: '30%' }}>Email</th>
-                        <th style={{ width: '30%' }}>Role</th>
-                        <th style={{ width: '10%' }}></th>
+                        <th>Title</th>
+                        <th>Bias</th>
+                        <th>Win/Loss</th>
+                        <th>Date</th>
+                        <th>Entry</th>
+                        <th>Max SDT</th>
+                        <th>DR Range</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {trades && trades.map(trade => 
                         <tr key={trade.id}>
-                            <td>{trade.title} {trade.bias} {trade.drRange}</td>
-                            <td>{trade.winLoss} {trade.timeOfEntry}</td>
-                            <td>{trade.entryZone} {trade?.news}</td>
+                            <td>{trade.title}</td>
+                            <td>{trade.bias}</td>
+                            <td>{trade.winLoss}</td>
+                            <td>{trade.date}</td>
+                            <td>{trade.entryZone}</td>
+                            <td>{trade.maxStdTarget}</td>
+                            <td>{trade.drRange}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                                 <Link href={`/trades/edit/${trade.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
                                 <button onClick={() => deleteTrade(trade.id)} className="btn btn-sm btn-danger btn-delete-trade" disabled={trade.isDeleting}>

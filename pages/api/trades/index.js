@@ -1,25 +1,25 @@
-import { usersRepo } from 'helpers';
+import { tradesRepo } from 'helpers';
 
 export default handler;
 
 function handler(req, res) {
     switch (req.method) {
         case 'GET':
-            return getUsers();
+            return getTrades();
         case 'POST':
-            return createUser();
+            return createTrade();
         default:
             return res.status(405).end(`Method ${req.method} Not Allowed`)
     }
 
-    function getUsers() {
-        const users = usersRepo.getAll();
-        return res.status(200).json(users);
+    function getTrades() {
+        const trades = tradesRepo.getAll();
+        return res.status(200).json(trades);
     }
     
-    function createUser() {
+    function createTrade() {
         try {
-            usersRepo.create(req.body);
+            tradesRepo.create(req.body);
             return res.status(200).json({});
         } catch (error) {
             return res.status(400).json({ message: error });
