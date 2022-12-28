@@ -6,7 +6,7 @@ function Home() {
     return (
         <div>
             <h1>Futures Day Trade Strategies</h1>
-            <p><Link href="/users">&gt;&gt; Manage Users</Link></p>
+            <p><Link href="/trades">&gt;&gt; Manage Trades</Link></p>
         </div>
     );
 }

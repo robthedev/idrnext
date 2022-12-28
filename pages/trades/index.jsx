@@ -35,7 +35,7 @@ function Index() {
         <div>
             <h1>Trades</h1>
             <Link href="/trades/add" className="btn btn-sm btn-success mb-2">Add Trade</Link>
-            <table className="table table-striped">
+            <table className="table table-dark table-striped">
                 <thead>
                     <tr>
                         <th>Title</th>
