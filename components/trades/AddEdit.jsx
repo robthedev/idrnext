@@ -11,36 +11,28 @@ export { AddEdit };
 
 function AddEdit(props) {
     const trade = props?.trade;
-    const isAddMode = !user;
+    const isAddMode = !trade;
     const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false);
     
+    console.info(trade)
 
-     /* id, 
-    title,
-    bias,
-    drRange,
-    winLoss,
-    maxStdTarget,
-    entryZone,
-    timeOfEntry,
-    news, */
-    // form validation rules 
     const validationSchema = Yup.object().shape({
         title: Yup.string()
             .required('Title is required'),
         bias: Yup.string()
-            .required('First Name is required'),
+            .required('Bias is required'),
+        drRange: Yup.string()
+            .required('DR range is required'),
         winLoss: Yup.string()
-            .required('Last Name is required'),
-        maxStdTarget: Yup.string()
-            .required('Last Name is required'),
+            .required('Win/loss is required'),
+        maxProfit: Yup.string()
+            .required('maxProfit is required'),
         entryZone: Yup.string()
-            .required('Role is required'),
-        timeOfEntry: Yup.string()
-            .required('Last Name is required'),
-        news: Yup.string()
-            .required('Last Name is required'),
+            .required('entry zone is required'),
+        imgUrl: Yup.string()
+            .required('image is required'),
+        date: Yup.string()
+            .required('date is required'),
     });
 
     const formOptions = { resolver: yupResolver(validationSchema) };
@@ -53,15 +45,17 @@ function AddEdit(props) {
 
     // get functions to build form with useForm() hook
     const { register, handleSubmit, reset, formState } = useForm(formOptions);
+
+    console.info(formOptions)
     const { errors } = formState;
 
     function onSubmit(data) {
         return isAddMode
-            ? createUser(data)
-            : updateUser(trade.id, data);
+            ? createTrade(data)
+            : updateTrade(trade.id, data);
     }
 
-    function createUser(data) {
+    function createTrade(data) {
         return tradeService.create(data)
             .then(() => {
                 alertService.success('Trade added', { keepAfterRouteChange: true });
@@ -70,7 +64,7 @@ function AddEdit(props) {
             .catch(alertService.error);
     }
 
-    function updateUser(id, data) {
+    function updateTrade(id, data) {
         return tradeService.update(id, data)
             .then(() => {
                 alertService.success('Trade updated', { keepAfterRouteChange: true });
@@ -83,33 +77,45 @@ function AddEdit(props) {
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>{isAddMode ? 'Add Trade' : 'Edit Trade'}</h1>
             <div className="form-row">
-                <div className="form-group col">
+                <div className="form-group col-4">
                 <label>Title</label>
                     <input name="title" type="text" {...register('title')} className={`form-control ${errors.title ? 'is-invalid' : ''}`} />
                     <div className="invalid-feedback">{errors.title?.message}</div>
                 </div>
-                <div className="form-group col-5">
+                <div className="form-group col-1">
                     <label>Bias</label>
-                    <input name="bias" type="text" {...register('bias')} className={`form-control ${errors.bias ? 'is-invalid' : ''}`} />
+                    <select name="bias" {...register('bias')} className={`form-control ${errors.bias ? 'is-invalid' : ''}`}>
+                        <option value=""></option>
+                        <option value="win">Long</option>
+                        <option value="loss">Short</option>
+                    </select>
                     <div className="invalid-feedback">{errors.bias?.message}</div>
                 </div>
-                <div className="form-group col-5">
+                <div className="form-group col-1">
                     <label>DR Range</label>
                     <input name="drRange" type="text" {...register('drRange')} className={`form-control ${errors.drRange ? 'is-invalid' : ''}`} />
                     <div className="invalid-feedback">{errors.drRange?.message}</div>
                 </div>
-            </div>
-            <div className="form-row">
-                <div className="form-group col-7">
+                <div className="form-group col-1">
                     <label>Win/Loss</label>
-                    <select name="winLoss" {...register('winLoss')} className={`form-control ${errors.maxStdTarget ? 'is-invalid' : ''}`}>
+                    <select name="winLoss" {...register('winLoss')} className={`form-control ${errors.winLoss ? 'is-invalid' : ''}`}>
                         <option value=""></option>
                         <option value="win">Win</option>
                         <option value="loss">Loss</option>
                     </select>
                     <div className="invalid-feedback">{errors.winLoss?.message}</div>
                 </div>
-                <div className="form-group col">
+                <div className="form-group col-1">
+                <label>Max Profit</label>
+                    <input name="maxProfit" type="text" {...register('maxProfit')} className={`form-control ${errors.maxProfit ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.maxProfit?.message}</div>
+                </div>
+                <div className="form-group col-1">
+                <label>Max DD</label>
+                    <input name="drawDown" type="text" {...register('drawDown')} className={`form-control ${errors.drawDown ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.drawDown?.message}</div>
+                </div>
+                <div className="form-group col-1">
                     <label>Std Target</label>
                     <select name="maxStdTarget" {...register('maxStdTarget')} className={`form-control ${errors.maxStdTarget ? 'is-invalid' : ''}`}>
                         <option value=""></option>
@@ -125,43 +131,58 @@ function AddEdit(props) {
                         <option value="5">5</option>
                     </select>
                     <div className="invalid-feedback">{errors.maxStdTarget?.message}</div>
-                    <div className="form-group col">
+                </div>
+                <div className="form-group col-1">
+                    <label>News</label>
+                    <select name="news" {...register('news')} className={`form-control ${errors.news ? 'is-invalid' : ''}`}>
+                        <option value=""></option>
+                        <option value="1">True</option>
+                        <option value="0">False</option>
+                    </select>
+                    <div className="invalid-feedback">{errors.news?.message}</div>
+                </div>
+            </div>
+            <div className="form-row">
+            <div className="form-group col-2">
                     <label>Entry Zone</label>
                     <select name="entryZone" {...register('entryZone')} className={`form-control ${errors.entryZone ? 'is-invalid' : ''}`}>
                         <option value=""></option>
-                        <option value="1">High DR/IDR</option>
-                        <option value="2">MidLine</option>
-                        <option value="3">Low DR/IDR</option>
-                        <option value="4">Below Range</option>
+                        <option value="High DR/IDR">High DR/IDR</option>
+                        <option value="Mid Zone">MidZone</option>
+                        <option value="Low DR/IDR">Low DR/IDR</option>
+                        <option value="Below Range">Below Range</option>
+                        <option value="Above Range">Above Range</option>
                     </select>
                     <div className="invalid-feedback">{errors.entryZone?.message}</div>
                 </div>
+                <div className="form-group col-2">
+                    <label>Date</label>
+                    <input name="date" type="date" {...register('date',  {
+                        valueAsDate: true,
+                    })} className={`form-control ${errors.date ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.date?.message}</div>
+                </div>
+                <div className="form-group col-2">
+                    <label>Enry Time</label>
+                    <input name="entryTime" type="time" {...register('entryTime')} className={`form-control ${errors.entryTime ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.entryTime?.message}</div>
+                </div>
+                <div className="form-group col-2">
+                    <label>Exit Time</label>
+                    <input name="exitTime" type="time" {...register('exitTime')} className={`form-control ${errors.exitTime ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.exitTime?.message}</div>
+                </div>
+                <div className="form-group col-3">
+                    <label>ImgUrl</label>
+                    <input name="imgUrl" type="text" {...register('imgUrl')} className={`form-control ${errors.imgUrl ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.imgUrl?.message}</div>
                 </div>
             </div>
-            {!isAddMode &&
-                <div>
-                    <h3 className="pt-3">Change Password</h3>
-                    <p>Leave blank to keep the same password</p>
-                </div>
-            }
             <div className="form-row">
-                <div className="form-group col">
-                    <label>
-                        Password
-                        {!isAddMode &&
-                            (!showPassword
-                                ? <span> - <a onClick={() => setShowPassword(!showPassword)} className="text-primary">Show</a></span>
-                                : <em> - {user.password}</em>
-                            )
-                        }
-                    </label>
-                    <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.password?.message}</div>
-                </div>
-                <div className="form-group col">
-                    <label>Confirm Password</label>
-                    <input name="confirmPassword" type="password" {...register('confirmPassword')} className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
+            <div className="form-group col-4">
+                    <label>Notes</label>
+                    <textarea name="notes" type="text" {...register('notes')} className={`form-control ${errors.notes ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.notes?.message}</div>
                 </div>
             </div>
             <div className="form-group">

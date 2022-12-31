@@ -1,10 +1,10 @@
 import { AddEdit } from 'components/trades';
-import { userService } from 'services';
+import { tradeService } from 'services';
 
 export default AddEdit;
 
 export async function getServerSideProps({ params }) {
-    const trade = await userService.getById(params.id);
+    const trade = await tradeService.getById(params.id);
 
     return {
         props: { trade }

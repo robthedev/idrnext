@@ -22,15 +22,6 @@ function Index() {
         });
     }
 
-/*title,
-        bias,
-        drRange,
-        winLoss,
-        maxStdTarget,
-        entryZone,
-        timeOfEntry,
-        news,*/
-
     return (
         <div>
             <h1>Trades</h1>

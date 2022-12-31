@@ -15,8 +15,8 @@ function handler(req, res) {
     }
 
     function getTradeById() {
-        const user = tradesRepo.getById(req.query.id);
-        return res.status(200).json(user);
+        const trade = tradesRepo.getById(req.query.id);
+        return res.status(200).json(trade);
     }
 
     function updateTrade() {
